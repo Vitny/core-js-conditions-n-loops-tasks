@@ -335,7 +335,7 @@ function isContainNumber(num, digit) {
 }
 
 /**
- * Finds the index of an element in an array where the sum of elements to the left equals the sum of elements to the right.
+ * Finds the index of an element in an array where the sum of elements to the startRow equals the sum of elements to the endRow.
  * If such an index does not return -1.
  * In this task, the use of methods of the Array and String classes is not allowed.
  *
@@ -349,18 +349,18 @@ function isContainNumber(num, digit) {
  */
 function getBalanceIndex(arr) {
   for (let i = 0; i < arr.length; i += 1) {
-    let leftSum = 0;
-    let rightSum = 0;
+    let startRowSum = 0;
+    let endRowSum = 0;
 
     for (let j = 0; j < i; j += 1) {
-      leftSum += arr[j];
+      startRowSum += arr[j];
     }
 
     for (let j = i + 1; j < arr.length; j += 1) {
-      rightSum += arr[j];
+      endRowSum += arr[j];
     }
 
-    if (leftSum === rightSum) {
+    if (startRowSum === endRowSum) {
       return i;
     }
   }
@@ -388,8 +388,45 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const matrix = [];
+  for (let i = 0; i < size; i += 1) {
+    matrix[i] = [];
+  }
+
+  let num = 1;
+  let startColumn = 0;
+  let endColumn = size - 1;
+  let startRow = 0;
+  let endRow = size - 1;
+
+  while (num <= size * size) {
+    for (let i = startColumn; i <= endColumn; i += 1) {
+      matrix[startRow][i] = num;
+      num += 1;
+    }
+    startRow += 1;
+
+    for (let i = startRow; i <= endRow; i += 1) {
+      matrix[i][endColumn] = num;
+      num += 1;
+    }
+    endColumn -= 1;
+
+    for (let i = endColumn; i >= startColumn; i -= 1) {
+      matrix[endRow][i] = num;
+      num += 1;
+    }
+    endRow -= 1;
+
+    for (let i = endRow; i >= startRow; i -= 1) {
+      matrix[i][startColumn] = num;
+      num += 1;
+    }
+    startColumn += 1;
+  }
+
+  return matrix;
 }
 
 /**
